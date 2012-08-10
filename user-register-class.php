@@ -12,7 +12,16 @@ class register {
 
 	function validate($id,$email,$pass){
 
-		//mssql_connect($db_host, $db_id, $db_pass) or die('Error connecting MSSQL');
+		mssql_connect($db_host, $db_id, $db_pass) or die('Error connecting MSSQL');
+
+		/*
+		Get Recaptcha API from http://www.google.com/recaptcha
+		we use recaptcha for security reason
+		*/
+		$cap = recaptcha_check_answer ("RECAPTCHA_PRIVATE_KEY",
+                                $_SERVER["REMOTE_ADDR"],
+                                $_POST["recaptcha_challenge_field"],
+                                $_POST["recaptcha_response_field"]);
 
 		$data = array();
 
@@ -32,8 +41,14 @@ class register {
 			$data['err'][] = "Form must fill all";
 		}
 
+		if(!$cap->is_valid){
+			$data['err'][] = $cap->error;
+		}
+
 		$us_h = mssql_query('SELECT * FROM rf_user.dbo.tbl_rfaccount WHERE id = CONVERT(binary,\''.$id.'\')') or die("Query failed");
-		if(mssql_num_rows($us_h) > 0){
+		$us_hx = mssql_num_rows($us_h);
+		//$us_hx = 0;
+		if($us_hx > 0){
 			$data['err'][] = "Username Already Exits";
 		}
 
@@ -49,9 +64,9 @@ class register {
 	function add_user($id,$email,$pass){
 
 		mssql_connect($db_host, $db_id, $db_pass) or die('Error connecting MSSQL');
-
+		$date = date("m/j/Y h:i:s");
 		$username = strtolower($id);
-		$q = mssql_query("INSERT INTO RF_User.dbo.tbl_rfaccount (id,password,BCodeTU,Email) VALUES ((CONVERT(binary, '$username')), (CONVERT(binary, '$pass')),'1', '$email');");
+		$q = mssql_query("INSERT INTO RF_User.dbo.tbl_rfaccount (id,password,birthdate,BCodeTU,Email) VALUES ((CONVERT(binary, '$username')), (CONVERT(binary, '$pass')),'$date','1', '$email');");
 		$has = array();
 		if($q){
 			return $has['succed'] = 1;
