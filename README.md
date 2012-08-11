@@ -2,10 +2,10 @@
 ##RF info integrate with website PHP
 --------------------------------------------
 there are include function
-	*register
-	*server game and login status port
-	*server game player number status
-	*GM Panel for Banned with Char only (WIP will add son)
+	- register
+	- server game and login status port
+	- server game player number status
+	- GM Panel for Banned with Char only (WIP will add son)
 
 Example usage
 
