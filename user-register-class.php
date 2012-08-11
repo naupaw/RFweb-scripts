@@ -45,7 +45,7 @@ class register {
 			$data['err'][] = $cap->error;
 		}
 
-		$us_h = mssql_query('SELECT * FROM rf_user.dbo.tbl_rfaccount WHERE id = CONVERT(binary,\''.$id.'\')') or die("Query failed");
+		$us_h = mssql_query('SELECT * FROM rf_user.dbo.tbl_rfaccount WHERE id = CONVERT(binary,\''.addslashes($id).'\')') or die("Query failed");
 		$us_hx = mssql_num_rows($us_h);
 		//$us_hx = 0;
 		if($us_hx > 0){
