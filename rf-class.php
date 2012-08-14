@@ -6,6 +6,7 @@ class rfgame
 	public $download_link 	  = "DOWNLOAD LINK GOES HERE"; //place download link here
 	public $group_link		  = "GROUP / FORUM LINK"; //Group Link
 
+
 	/*
 	SERVER STATUS ALLOW TO READ SERVER STATUS OFFLINE OR ONLINE
 	LIKE LOGIN PORT AND GAME PORT
