@@ -2,9 +2,9 @@
 class rfgame
 {
 	//Only Global Setting some matters !
-	public $rf_name 		  = "RF ONLINE BLAH BLAH BLAH"; // Your RF Online name
+	public $rf_name 	  = "RF ONLINE BLAH BLAH BLAH"; // Your RF Online name
 	public $download_link 	  = "DOWNLOAD LINK GOES HERE"; //place download link here
-	public $group_link		  = "GROUP / FORUM LINK"; //Group Link
+	public $group_link	  = "GROUP / FORUM LINK"; //Group Link
 
 
 	/*
