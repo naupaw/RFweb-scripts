@@ -24,7 +24,8 @@ Example usage
 	//how many player in the game
 
 	$total = $rf->user_status('C:\RF\ZoneServer\SystemSave\ServerDisplay.ini');
-
+	
+	echo $total['total']; //total all user
 	echo $total['accretia'];
 	echo $total['belato'];
 	echo $total['cora'];

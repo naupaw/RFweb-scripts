@@ -18,7 +18,7 @@ class rfgame
 	public function statuscheck($ip, $gport, $lport) {
 		$gm_stat = @fsockopen($ip, $gport, $errno, $errstr, 1);
 		$lg_stat = @fsockopen($ip, $lport, $errno, $errstr, 1);
-		$statx = array();
+		$stat = array();
 		if (!$gm_stat) {
 			$stat['gm_stat'] = FALSE;
 		} else {
@@ -31,7 +31,7 @@ class rfgame
 			@fclose($sockres);
 			$stat['lg_stat'] = TRUE;
 		}
-		return $statx;
+		return $stat;
 	}
 	/*
 	SERVER USER STATUS 
@@ -44,20 +44,34 @@ class rfgame
 	- cora
 	*/
 	// Default File is C:\RF\ZoneServer\SystemSave\ServerDisplay.ini 
-	function user_status($file_s){
+	function user_status($filename){
 
-		$tco = $this->rf_total($file_s , "15"); 
-		$total_connect = substr($tco,8,15); 
-		$file = file ($file_s);
-		foreach($file as $line)
-        {
-               if(strspn($line, "[") != 1)
-               parse_str($line);
-        }
+		if (file_exists($filename)) {
+		    $handle = fopen($filename, "r+");
+		    $contents = fread($handle, filesize($filename));
+		    fclose($handle);
 
-        $data = array(	'accretia' => $A_num,
-        				'belato' => $B_num,
-        				'cora' => $C_num);
+		    //--Total player--
+		    $total = explode('UserNum=', $contents);
+		    $total2 = explode("\n",$total[1]);
+		    //--accretia--
+		    $A_num = explode('A_num=', $contents);
+		    $A_num2 = explode("\n",$A_num[1]);
+		    //--belato--
+		    $B_num = explode('B_num=', $contents);
+		    $B_num2 = explode("\n",$B_num[1]);
+		    //--Cora--
+		    $C_num = explode('C_num=', $contents);
+		    $C_num2 = explode("\n",$C_num[1]);
+
+		    $data = array(	'total' => $total2[0],
+        					'accretia' => $A_num2[0],
+        					'belato' => $B_num2[0],
+        					'cora' => $C_num2[0]
+        				 );
+		}else{
+			$data = "file not found";
+		}
 
         return $data;
 	}
@@ -68,9 +82,9 @@ class rfgame
 	*/
 	private function rf_total($fichier, $ligne) 
 	{ 
-	    if (file_exists("$fichier")) 
+	    if (file_exists($fichier)) 
 	    { 
-	        if($id = fopen("$fichier", "r+")) 
+	        if($id = fopen($fichier, "r+")) 
 	            { 
 	            while(!feof($id)) 
 	            { 
